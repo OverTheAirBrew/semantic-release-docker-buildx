@@ -1,0 +1,26 @@
+# ignore the .ts files
+*.ts
+# include the .d.ts files
+!*.d.ts
+
+.circleci
+.github
+.husky
+.nyc_output
+.vscode
+coverage
+test
+.editorconfig
+.env.example
+.gitignore
+.npmrc
+.nvmrc
+.nycrc
+.prettierrc
+.sequelizerc
+LICENCE
+README.md
+tsconfig.json
+
+**/ota.db
+.env

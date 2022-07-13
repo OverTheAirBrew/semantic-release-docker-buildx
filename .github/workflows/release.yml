@@ -1,0 +1,19 @@
+name: Build And Release
+
+on: [ push ]
+
+jobs:
+  container-job:
+    runs-on: ubuntu-latest
+    container: overtheairbrew/build:node-14
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          npm ci
+      - run: npm run build
+      - run: npm run release
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEPENDABOT_AUTOMERGE_TOKEN }}
+          DOCKER_REGISTRY_USER: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

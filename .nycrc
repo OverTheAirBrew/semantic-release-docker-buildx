@@ -1,0 +1,19 @@
+{
+  "all": true,
+  "include": [
+    "app/**"
+  ],
+  "exclude": [
+    "**/orm/**",
+    "**/*.spec.*",
+    "**/logger.*",
+    "**/load-server-controllers.*",
+    "**/index.*",
+    "**/errors/*.*"
+  ],
+  "check-coverage": false,
+  "branches": 100,
+  "functions": 100,
+  "lines": 100,
+  "statements": 100
+}
