@@ -22,7 +22,7 @@ export async function publish(pluginConfig: IPluginConfig, context: Context) {
 async function buildDockerArgs(pluginConfig: IPluginConfig, context: Context) {
   const buildArgParams = [];
 
-  Object.entries(pluginConfig.buildArgs).forEach(([key, value]) => {
+  Object.entries(pluginConfig.buildArgs || {}).forEach(([key, value]) => {
     buildArgParams.push(`--build-arg`);
     buildArgParams.push(`${key}=${value}`);
   });
