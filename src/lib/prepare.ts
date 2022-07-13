@@ -8,7 +8,7 @@ export async function prepare(pluginConfig: IPluginConfig, context: Context) {
     'create',
     '--name',
     'dockerx-builder',
-    '--user',
+    '--use',
   ]);
 
   stream.stderr.pipe(process.stderr);
