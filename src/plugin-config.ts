@@ -1,5 +1,6 @@
 export interface IPluginConfig {
-  name: string;
+  dockerImage: string;
+  dockerProject?: string;
 
   registryUrl?: string;
   login?: boolean;

@@ -2,16 +2,11 @@ import execa = require('execa');
 import { Context } from 'semantic-release';
 import { IPluginConfig } from '../plugin-config';
 import { buildTemplateVars } from './build-template-vars';
-
 import { template } from './handlebars';
 
 require('source-map-support/register');
 
 export async function publish(pluginConfig: IPluginConfig, context: Context) {
-  context.logger.log(
-    `Pushing version ${pluginConfig.name}:${context.nextRelease.version} to docker hub`,
-  );
-
   const cwd = pluginConfig.cwd || process.cwd();
 
   const buildArgs = await buildDockerArgs(pluginConfig, context);
@@ -44,7 +39,14 @@ async function buildDockerArgs(pluginConfig: IPluginConfig, context: Context) {
 
   tags.forEach((tag) => {
     mappedTags.push('--tag');
-    mappedTags.push(template(tag)(templateVars));
+
+    const imageName = pluginConfig.dockerProject
+      ? `${pluginConfig.dockerProject}/${pluginConfig.dockerImage}`
+      : pluginConfig.dockerImage;
+
+    const version = template(tag)(templateVars);
+
+    mappedTags.push(`${imageName}:${version}`);
   });
 
   const params = ['buildx', 'build'];
