@@ -1,13 +1,13 @@
 {
-  "name": "@overtheairbrew/semantic-release-docker-buildx",
-  "version": "1.2.6",
+  "name": "@overtheairbrew/semantic-release-dockerbuildx",
+  "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "files": [
     "dist"
   ],
   "scripts": {
-    "prebuild": "del '**/*.{js,map,d.ts}' '!node_modules' '!commitlint.config.js'",
+    "prebuild": "del '**/*.{js,map,d.ts}' '!node_modules' '!commitlint.config.js' '!release.config.js'",
     "build": "tsc",
     "prepare": "is-ci || husky install",
     "release": "semantic-release"
