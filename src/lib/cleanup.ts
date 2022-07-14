@@ -7,13 +7,3 @@ export async function cleanup() {
 
   await execa('docker', ['buildx', 'rm', 'dockerx-builder']);
 }
-
-Promise.resolve()
-  .then(async () => {
-    await cleanup();
-    process.exit(0);
-  })
-  .catch((err) => {
-    console.error(err);
-    process.exit(1);
-  });
