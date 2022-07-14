@@ -2,7 +2,7 @@ import execa = require('execa');
 
 export async function cleanup() {
   const { stdout } = await execa('docker', [
-    'dockerx',
+    'buildx',
     'ls',
     '|',
     'grep',
