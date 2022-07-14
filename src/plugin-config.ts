@@ -12,4 +12,5 @@ export interface IPluginConfig {
   tags?: string[];
 
   cwd?: string;
+  builderName?: string;
 }
