@@ -10,7 +10,6 @@
     "prebuild": "del '**/*.{js,map,d.ts}' '!node_modules' '!commitlint.config.js' '!release.config.js'",
     "build": "tsc",
     "prepare": "is-ci || husky install",
-    "test": "nyc --reporter=text-summary mocha 'dist/test/**/*.js' --exit --bail",
     "release": "semantic-release"
   },
   "repository": {
