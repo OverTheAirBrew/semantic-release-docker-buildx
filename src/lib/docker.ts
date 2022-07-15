@@ -1,4 +1,3 @@
-import execa = require('execa');
 import { Context } from 'semantic-release';
 
 import { existsSync } from 'fs';
@@ -8,15 +7,19 @@ import { template } from './handlebars';
 import { IPluginConfig } from './plugin-config';
 import SemanticError = require('@semantic-release/error');
 
+import { exec } from './execa-wrapper';
+
 export class Docker {
   private readonly builderName: string;
   private readonly cwd: string;
   private readonly dockerFile: string;
+  private readonly shouldLogin: boolean;
 
   constructor(private pluginConfig: IPluginConfig, private context: Context) {
     this.builderName = pluginConfig.builderName || 'dockerx-builder';
     this.cwd = pluginConfig.cwd || process.cwd();
     this.dockerFile = pluginConfig.dockerFile || 'Dockerfile';
+    this.shouldLogin = pluginConfig.login || true;
   }
 
   async buildImage() {
@@ -63,7 +66,7 @@ export class Docker {
   }
 
   async login() {
-    if (!this.pluginConfig.login) return;
+    if (!this.shouldLogin) return;
 
     const { DOCKER_USERNAME, DOCKER_PASSWORD } = this.context.env;
 
@@ -73,8 +76,8 @@ export class Docker {
       );
     }
 
-    const passwd = execa('echo', [DOCKER_PASSWORD]);
-    const login = execa('docker', [
+    const passwd = exec('echo', [DOCKER_PASSWORD]);
+    const login = exec('docker', [
       'login',
       this.pluginConfig.registryUrl || '',
       '-u',
@@ -86,7 +89,9 @@ export class Docker {
 
     try {
       await login;
+      console.log('Logged in');
     } catch (err) {
+      console.log(err);
       this.context.logger.error(err);
       throw new SemanticError(
         'Docker authentication failed',
@@ -101,8 +106,6 @@ export class Docker {
   }
 
   async checkDockerFileExists() {
-    console.log(this.cwd, this.dockerFile);
-
     const dockerFilePath = join(this.cwd, this.dockerFile);
     if (existsSync(dockerFilePath)) return;
 
@@ -114,7 +117,7 @@ export class Docker {
   }
 
   private async checkBuilderRunning() {
-    const { stdout } = await execa('docker', ['buildx', 'ls']);
+    const { stdout } = await exec('docker', ['buildx', 'ls']);
     return stdout.indexOf(this.builderName) > -1;
   }
 
@@ -124,7 +127,7 @@ export class Docker {
       JSON.stringify(params),
     );
 
-    const stream = execa('docker', params, { cwd: this.cwd });
+    const stream = exec('docker', params, { cwd: this.cwd });
 
     stream.stderr.pipe(process.stderr);
     stream.stdout.pipe(process.stdout);
