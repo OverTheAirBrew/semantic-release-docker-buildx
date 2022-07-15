@@ -1,6 +1,6 @@
 import { Context } from 'semantic-release';
 import { parse } from 'semver';
-import { IPluginConfig } from '../plugin-config';
+import { IPluginConfig } from './plugin-config';
 
 export async function buildTemplateVars(
   config: IPluginConfig,
