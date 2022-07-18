@@ -144,9 +144,15 @@ export class Docker {
   ) {
     const buildArgParams = [];
 
+    const templateVars = await buildTemplateVars(
+      this.pluginConfig,
+      this.context,
+    );
+
     Object.entries(pluginConfig.buildArgs || {}).forEach(([key, value]) => {
+      const mappedValue = template(value)(templateVars);
       buildArgParams.push(`--build-arg`);
-      buildArgParams.push(`${key}=${value}`);
+      buildArgParams.push(`${key}=${mappedValue}`);
     });
 
     const platforms = pluginConfig.platforms.join(',');
@@ -154,11 +160,6 @@ export class Docker {
     const tags = pluginConfig.tags?.length
       ? pluginConfig.tags
       : ['latest', '{{major}}-latest', '{{version}}'];
-
-    const templateVars = await buildTemplateVars(
-      this.pluginConfig,
-      this.context,
-    );
 
     const mappedTags: string[] = [];
 
