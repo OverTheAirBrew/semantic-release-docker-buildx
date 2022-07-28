@@ -177,7 +177,8 @@ export class Docker {
 
     const params = ['buildx', 'build'];
 
-    if (pluginConfig.dockerFile) params.push(`-f ${pluginConfig.dockerFile}`);
+    if (pluginConfig.dockerFile)
+      params.push(`-f`, `${pluginConfig.dockerFile}`);
 
     params.push(
       ...buildArgParams,
