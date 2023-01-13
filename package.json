@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/overtheairbrew/semantic-release-docker-buildx#readme",
   "devDependencies": {
-    "@commitlint/cli": "^13.1.0",
+    "@commitlint/cli": "^17.4.2",
     "@commitlint/config-conventional": "^13.1.0",
     "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/git": "^9.0.1",
